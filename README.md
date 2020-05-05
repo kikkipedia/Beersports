@@ -1,3 +1,7 @@
+This project was made for fun in React using Västtrafik Resrobot API's. 
+It's a game for random pub hopping in Gothenburg
+
+##########################################################################################################
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
