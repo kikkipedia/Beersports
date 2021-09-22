@@ -245,9 +245,9 @@ class Dice extends React.Component {
                         <DepartureBoard hpl={this.state.hplId} tramDice={this.state.tramDice} startPos={this.state.startPos}/>
                     </div>
                 </div>
-                <div className="footer">
+                {/* <div className="footer">
                 <img src="logo_white.PNG" className="resize" alt="logo"/>
-                </div>
+                </div> */}
             </div>
             
         )
