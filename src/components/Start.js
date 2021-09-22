@@ -3,8 +3,8 @@ import { Button, Table, Row, Col } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { fetchStationByName, fetchDepartureBoard, fetchAllStations } from '../api'
-import AutoComplete from './Search/AutoComplete'
-import { stops } from './Search/stops'
+import { InputGroup, FormControl } from 'react-bootstrap'
+import { stops } from './data/stops'
 
 const Start = () => {
 
@@ -12,11 +12,59 @@ const Start = () => {
     const [stationId, setStationId] = useState()
     const [departures, setDepartures] = useState([])
     //array of station suggestions
-    const [suggestions, setSuggestions] = useState([])
     const [value, setValue] = useState('')
     const [text, setText] = useState('')
     const [show, setShow] = useState(false)
+    const [filteredSuggestions, setFilteredSuggestions] = useState([])
+    const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0)
+    const [showSuggestions, setShowSuggestions] = useState(false)
+    const [input, setInput] = useState('')
 
+    useEffect(() => {
+        //get value by className "suggestion-active"
+    })
+
+    const onChange = (e) => {
+        const userInput = e.target.value
+        //filter suggestions that dont contain user input
+        const unLinked = stops.filter((suggestion) =>
+        suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1)
+        setInput(e.target.value)
+        setFilteredSuggestions(unLinked)
+        setActiveSuggestionIndex(0)
+        setShowSuggestions(true)
+    }
+
+    const onClick = (e) => {
+        setFilteredSuggestions([])
+        setInput(e.target.innerText)
+        setActiveSuggestionIndex(0)
+        setShowSuggestions(false)
+        
+    }
+
+    const SuggestionsListComponent = () => {
+        return filteredSuggestions.length ? (
+            <ul className="suggestions">
+                {filteredSuggestions.map((suggestion, index) => {
+                    let className
+                    //flag the active suggestion with a class
+                    if(index === activeSuggestionIndex) {
+                        className = "suggestion-active"
+                    }
+                    return(
+                        <li className={className} key={suggestion} onClick={onClick}>
+                            {suggestion}
+                        </li>
+                    )
+                })}
+            </ul>
+        ) : (
+            <div className="no-suggestions">
+                <em>No stops found</em>
+            </div>
+        )
+    }
 
     //search for stop
     // const getStation = () => {
@@ -49,10 +97,16 @@ const Start = () => {
     return(
         <div className="content">
             <p>Search your starting station</p>
-            <Row>
-                <Col><AutoComplete suggestions={stops}/></Col>
-                <Col><Button><FontAwesomeIcon icon={faSearch}/></Button></Col>
-            </Row>
+            <div className="justify-content-center">
+                <Col className="md-6">
+                    <InputGroup>
+                        <FormControl placeholder="Search station" type="text" onChange={onChange} value={input} />
+                    </InputGroup>
+                    {showSuggestions && input && <SuggestionsListComponent/>}
+                </Col>
+                <Col className="md-2"><Button><FontAwesomeIcon icon={faSearch}/></Button></Col>
+            </div>
+
         </div>
     )
 
