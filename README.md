@@ -2,9 +2,15 @@
 
 # BEERSPORTS
 
-This application is a game for random pub hopping in Gothenburg by tram using React and Västtrafik Resrobot API.
+This application is a game for random pub hopping in Gothenburg by tram, built using React and [Västtrafik Resrobot API](https://www.trafiklab.se/api/resrobot-sok-resa/dokumentation-resrobot-sok-resa-0).
 
-## Setup & installation
+## Project Status
+
+This project is currently in development. Moving from class based compomnents towards functional components using Redux. A working, but buggy, version was deployed [here](https://beersports666.firebaseapp.com/) in 2020.
+
+## Project Screen Shots
+
+## Setup & Installation
 
 Clone this repository. You will need `node` and `npm` installed globally on your machine.
 
