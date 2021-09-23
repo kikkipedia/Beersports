@@ -11,18 +11,11 @@ const Start = () => {
     const [stationName, setStationName] = useState()
     const [stationId, setStationId] = useState()
     const [departures, setDepartures] = useState([])
-    //array of station suggestions
-    const [value, setValue] = useState('')
-    const [text, setText] = useState('')
-    const [show, setShow] = useState(false)
+    //search values
     const [filteredSuggestions, setFilteredSuggestions] = useState([])
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0)
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [input, setInput] = useState('')
-
-    useEffect(() => {
-        //get value by className "suggestion-active"
-    })
 
     const onChange = (e) => {
         const userInput = e.target.value
@@ -57,6 +50,7 @@ const Start = () => {
                             {suggestion}
                         </li>
                     )
+                    
                 })}
             </ul>
         ) : (
@@ -66,21 +60,36 @@ const Start = () => {
         )
     }
 
+    // TODO
+    const rollDiceOne = () => {
+        //if null OR className = "no-suggestions" dont continue
+        if (!input) {
+            //do nothing
+            console.log("empty!")
+        }
+        else {
+            setStationName(input)
+            console.log(input)
+            getStation()
+        }
+        
+    }
+
     //search for stop
-    // const getStation = () => {
-    //     console.log(stationName)
-    //     try {
-    //         fetchStationByName(stationName)
-    //         .then(data => {
-    //         //only trams in gothenburg
-    //         let object = data.StopLocation.find(el => el.products === 192 || 64)
-    //         setStationName(object.name)
-    //         setStationId(object.id)
-    //         setShow(true)
-    //     })
-    //     }
-    //     catch(error) { console.log(error) }
-    // }
+    const getStation = () => {
+        console.log(input)
+        try {
+            fetchStationByName(input)
+            .then(data => {
+            //only trams in gothenburg
+            let object = data.StopLocation.find(el => el.products === 192 || 64)
+            setStationName(object.name)
+            setStationId(object.id)
+            console.log(object)
+        })
+        }
+        catch(error) { console.log(error) }
+    }
 
     //get station info
     // const getDepartureboard = () => {
@@ -104,7 +113,13 @@ const Start = () => {
                     </InputGroup>
                     {showSuggestions && input && <SuggestionsListComponent/>}
                 </Col>
-                <Col className="md-2"><Button><FontAwesomeIcon icon={faSearch}/></Button></Col>
+                <Col className="md-2">
+                    {input ? (
+                        <Button onClick={rollDiceOne}>Continue</Button>
+                    ) : (null)
+                    
+                }
+                    </Col>
             </div>
 
         </div>
