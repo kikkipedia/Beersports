@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Table, Row, Col } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { fetchStationByName, fetchDepartureBoard, fetchAllStations } from '../api'
+import React, { useState } from 'react'
+import { Button, Col } from 'react-bootstrap'
+import { fetchStationByName } from '../api'
 import { InputGroup, FormControl } from 'react-bootstrap'
 import { stops } from './data/stops'
+import { connect } from 'react-redux'
+import { setStopId } from '../redux/actions'
 
 const Start = () => {
 
     const [stationName, setStationName] = useState()
     const [stationId, setStationId] = useState()
-    const [departures, setDepartures] = useState([])
     //search values
     const [filteredSuggestions, setFilteredSuggestions] = useState([])
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0)
@@ -62,14 +61,13 @@ const Start = () => {
 
     // TODO
     const rollDiceOne = () => {
-        //if null OR className = "no-suggestions" dont continue
+        //if no search and/or no suggestions - TODO
         if (!input) {
             //do nothing
             console.log("empty!")
         }
         else {
             setStationName(input)
-            console.log(input)
             getStation()
         }
         
@@ -86,22 +84,12 @@ const Start = () => {
             setStationName(object.name)
             setStationId(object.id)
             console.log(object)
+            //update redux store
+            //then next component -> Game.js
         })
         }
         catch(error) { console.log(error) }
     }
-
-    //get station info
-    // const getDepartureboard = () => {
-    //     console.log(stationId)
-    //     fetchDepartureBoard(stationId)
-    //     .then(data => {
-    //         console.log(data)
-    //         setDepartures(data)
-    //     })
-    // }
-
-
 
     return(
         <div className="content">
@@ -119,9 +107,11 @@ const Start = () => {
                     ) : (null)
                     
                 }
-                    </Col>
+                </Col>
             </div>
+            {
 
+            }
         </div>
     )
 
