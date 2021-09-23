@@ -1,26 +1,13 @@
-import { useState } from "react"
-import { connect } from "react-redux"
-import { addStop } from "../redux/actions"
+import React, { useState } from "react"
 import { fetchDepartureBoard } from "../api"
 
 const Game = () => {
     const [departures, setDepartures] = useState([])
     const [stationId, setStationId] = useState() //get from redux store?
 
-    //get station id from redux store
-
-    //adds stop to redux store so it wont be used again
-    const mapDispatchToProps = (dispatch) => {
-        return {
-            addStop: stop => dispatch(addStop(stop))
-        }
-    } 
-
-    //get station info
+    //get station info from props?
     const getDepartureboard = () => {
         console.log(stationId)
-        //dispatches an action
-        addStop(stationId)
         fetchDepartureBoard(stationId)
         .then(data => {
             console.log(data)

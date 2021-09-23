@@ -3,8 +3,6 @@ import { Button, Col } from 'react-bootstrap'
 import { fetchStationByName } from '../api'
 import { InputGroup, FormControl } from 'react-bootstrap'
 import { stops } from './data/stops'
-import { connect } from 'react-redux'
-import { setStopId } from '../redux/actions'
 
 const Start = () => {
 
@@ -84,8 +82,8 @@ const Start = () => {
             setStationName(object.name)
             setStationId(object.id)
             console.log(object)
-            //update redux store
-            //then next component -> Game.js
+            //update state
+            //then next component -> Game.js send props
         })
         }
         catch(error) { console.log(error) }
