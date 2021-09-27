@@ -3,16 +3,24 @@ import { Button, Col } from 'react-bootstrap'
 import { fetchStationByName } from '../api'
 import { InputGroup, FormControl } from 'react-bootstrap'
 import { stops } from './data/stops'
+import { useHistory } from 'react-router'
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../state/index'
 
 const Start = () => {
-
+    //redux
+    const dispatch = useDispatch()
+    const {updateStationId} = bindActionCreators(actionCreators, dispatch)
+    //hooks TODO use redux instead
     const [stationName, setStationName] = useState()
-    const [stationId, setStationId] = useState()
     //search values
     const [filteredSuggestions, setFilteredSuggestions] = useState([])
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0)
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [input, setInput] = useState('')
+
+    const history = useHistory()
 
     const onChange = (e) => {
         const userInput = e.target.value
@@ -29,8 +37,7 @@ const Start = () => {
         setFilteredSuggestions([])
         setInput(e.target.innerText)
         setActiveSuggestionIndex(0)
-        setShowSuggestions(false)
-        
+        setShowSuggestions(false)      
     }
 
     const SuggestionsListComponent = () => {
@@ -77,13 +84,10 @@ const Start = () => {
         try {
             fetchStationByName(input)
             .then(data => {
-            //only trams in gothenburg
-            let object = data.StopLocation.find(el => el.products === 192 || 64)
-            setStationName(object.name)
-            setStationId(object.id)
-            console.log(object)
-            //update state
-            //then next component -> Game.js send props
+            let object = data.StopLocation.find(el => el.products === 64 || 192)
+            //id to redux store
+            updateStationId(object.id)
+            history.push("/game")
         })
         }
         catch(error) { console.log(error) }
@@ -91,27 +95,28 @@ const Start = () => {
 
     return(
         <div className="content">
-            <p>Search your starting station</p>
-            <div className="justify-content-center">
-                <Col className="md-6">
-                    <InputGroup>
-                        <FormControl placeholder="Search station" type="text" onChange={onChange} value={input} />
-                    </InputGroup>
-                    {showSuggestions && input && <SuggestionsListComponent/>}
-                </Col>
-                <Col className="md-2">
-                    {input ? (
-                        <Button onClick={rollDiceOne}>Continue</Button>
-                    ) : (null)
-                    
-                }
-                </Col>
+            <div className="one">
+                <p>Search your starting station</p>
+                <div className="justify-content-center">
+                    <Col className="md-6">
+                        <InputGroup>
+                            <FormControl placeholder="Search station" type="text" onChange={onChange} value={input} />
+                        </InputGroup>
+                        {showSuggestions && input && <SuggestionsListComponent/>}
+                    </Col>
+                    <Col className="md-2">
+                        {input ? (
+                            <Button onClick={rollDiceOne}>Continue</Button>
+                        ) : (null)
+                        
+                        }
+                    </Col>
+                </div>
             </div>
-            {
-
-            }
+            <br/>
         </div>
     )
 
 }
+
 export default Start
