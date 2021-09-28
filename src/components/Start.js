@@ -11,9 +11,7 @@ import { actionCreators } from '../state/index'
 const Start = () => {
     //redux
     const dispatch = useDispatch()
-    const {updateStationId} = bindActionCreators(actionCreators, dispatch)
-    //hooks TODO use redux instead
-    const [stationName, setStationName] = useState()
+    const {updateStationId, updateStationName} = bindActionCreators(actionCreators, dispatch)
     //search values
     const [filteredSuggestions, setFilteredSuggestions] = useState([])
     const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0)
@@ -72,7 +70,7 @@ const Start = () => {
             console.log("empty!")
         }
         else {
-            setStationName(input)
+            updateStationName(input)
             getStation()
         }
         
