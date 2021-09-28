@@ -5,8 +5,10 @@ import { useSelector } from "react-redux"
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../state/index'
+import { useHistory } from 'react-router'
 
 const Game = () => {
+    const history = useHistory()
     //redux 
     const stationId = useSelector((state) => state.station)
     const stationName = useSelector((state) => state.stationName)
@@ -18,15 +20,27 @@ const Game = () => {
     const [stops, setStops] = useState()
     const [direction, setDirection] = useState()
     const [end, setEnd] = useState()
+    //toggle show
+    const [showStart, setShowStart] = useState(true)
+    const [showTramNumb, setShowTramNumb] = useState(false)
+    const [showDirection, setShowDirection] = useState(false)
+    const [showStops, setShowStops] = useState(false)
+    const [result, setResult] = useState(false)
 
     //get departure board for the station they are at
-    //TODO try catch
     useEffect(() => {
-        fetchDepartureBoard(stationId)
-        .then(data => {
+        try {
+            fetchDepartureBoard(stationId)
+            .then(data => {
             console.log(data)
             setDepartures(data)
         })
+        }
+        catch(error) {
+            console.log(error)
+            alert(error)
+            history.push("/")
+        }
     },[stationId])
 
     //trim string
@@ -37,6 +51,7 @@ const Game = () => {
 
     //which tram to take
     const rollTram = () => {
+        setShowStart(false)
         //get tram numbers for that station
         let stationArr = []
         for(let i = 0; i <departures.Departure.length; i++){
@@ -60,25 +75,69 @@ const Game = () => {
             setStops(random)
             setEnd(trimText(endhpl.name))
             updateStationName(trimText(endhpl.name))
-        }
-        
+            setShowTramNumb(true)
+        }      
+    }
+    //toggle show/hide
+    const rollDice1 = () => {
+        setShowTramNumb(false)
+        setShowDirection(true)
+    }
+
+    const rollDice2 = () => {
+        setShowDirection(false)
+        setShowStops(true)
+    }
+
+    const rollDice3 = () => {
+        setShowStops(false)
+        setResult(true)
     }
     
-    return(
+    return (
         <div className="content">
-            <h4>2.</h4>
-            <p>Du startar vid {stationName}</p>
-            <Button onClick={rollTram}>ROLL DICE</Button>
-            <h4>3.</h4>
-            <p>Ta spårvagn {tramNumb}</p>
-            <Button>ROLL DICE</Button>
-            <h4>4.</h4>
-            <p>Åk {stops} hållplatser</p>
-            <Button >ROLL DICE</Button>
-            <h4>5.</h4>
-            <p>Mot {direction}</p>
-            <h4>6.</h4>
-            <p>Åk till: {end}</p>
+            { showStart ?  (
+                <div>
+                    <p>Du startar vid</p> 
+                    <p><span>{stationName}</span></p>
+                    <Button onClick={rollTram}>SLÅ TÄRNING</Button>
+                </div>
+            ) : null
+            }
+            { showTramNumb ? (
+                <div>
+                    <br/>
+                    <p>Ta spårvagn <span>{tramNumb}</span></p>
+                    <Button onClick={rollDice1}>SLÅ TÄRNING</Button>
+                </div>
+            ) : null
+
+            }
+            
+            {showDirection ? (
+                <div>
+                    <p>Spårvagn <span>{tramNumb}</span>. Riktning <span>{direction}</span></p>
+                    <Button onClick={rollDice2}>SLÅ TÄRNING</Button>
+                </div>
+            ) : null}
+            
+            {showStops ? (
+                <div>
+                    <p>Åk {stops} hållplatser</p>
+                    <Button onClick={rollDice3}>VART SKA VI?</Button>
+                </div>
+            ) : null}
+            
+            {result ? (
+                <div>
+                    <p>Åk till: {end}</p>
+                    <p>Klicka <Button>här</Button>när du dricker en öl vid {end}</p>
+                    <p>eller <a href="/">börja om</a></p>
+                </div>
+            ) : null
+
+            }
+            
         </div>
     )
 }
