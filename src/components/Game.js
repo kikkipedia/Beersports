@@ -12,7 +12,7 @@ const Game = () => {
     const stationName = useSelector((state) => state.stationName)
     const dispatch = useDispatch()
     const {updateStationName} = bindActionCreators(actionCreators, dispatch)
-
+    //hooks
     const [departures, setDepartures] = useState([])
     const [tramNumb, setTramNumb] = useState()
     const [stops, setStops] = useState()
@@ -29,6 +29,12 @@ const Game = () => {
         })
     },[stationId])
 
+    //trim string
+    const trimText = (text) => {
+        let newText = text.replace(/Göteborg|kn|()/g,'')
+        return newText
+    }
+
     //which tram to take
     const rollTram = () => {
         //get tram numbers for that station
@@ -40,18 +46,24 @@ const Game = () => {
         //random tram
         let tram = stationArr[Math.floor(Math.random()*stationArr.length)]
         console.log(tram)
-        setTramNumb(tram.transportNumber)
-        setDirection(tram.direction)
-        //random stops to travel
-        let stopArr = tram.Stops.Stop
-        let random = Math.floor(Math.random()*stopArr.length)
-        let endhpl = stopArr[random]
-        setStops(random)
-        setEnd(endhpl.name)
-        updateStationName(endhpl.name)
+        if(tram.transportNumer === "Spårvagn X") {
+            rollTram()
+        }
+        else {
+            setTramNumb(tram.transportNumber)
+            setDirection(trimText(tram.direction))
+            //random stops to travel
+            let stopArr = tram.Stops.Stop
+            let random = Math.floor(Math.random()*stopArr.length)
+            //TODO IF TOO MANY STOPS???
+            let endhpl = stopArr[random]
+            setStops(random)
+            setEnd(trimText(endhpl.name))
+            updateStationName(trimText(endhpl.name))
+        }
+        
     }
     
-
     return(
         <div className="content">
             <h4>2.</h4>
@@ -64,7 +76,7 @@ const Game = () => {
             <p>Åk {stops} hållplatser</p>
             <Button >ROLL DICE</Button>
             <h4>5.</h4>
-            <p>Direction {direction}</p>
+            <p>Mot {direction}</p>
             <h4>6.</h4>
             <p>Åk till: {end}</p>
         </div>
