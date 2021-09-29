@@ -56,10 +56,8 @@ const Game = () => {
         for(let i = 0; i <departures.Departure.length; i++){
             stationArr.push(departures.Departure[i])
         }
-        console.log(stationArr)
         //random tram
         let tram = stationArr[Math.floor(Math.random()*stationArr.length)]
-        console.log(tram)
         if(tram.transportNumer === "Spårvagn X") {
             rollTram()
         }
@@ -105,6 +103,7 @@ const Game = () => {
     //start next tram ride
     const restart = () => {
         localStorage.setItem('station', stationName)
+        setResult(false)
         setShowStart(true)
     }
     
@@ -114,7 +113,7 @@ const Game = () => {
                 <div>
                     <p>Du startar vid</p> 
                     <p><span>{stationName}</span></p>
-                    <Button onClick={rollTram}>SLÅ TÄRNING</Button>
+                    <Button variant="light" onClick={rollTram}>SLÅ TÄRNING</Button>
                 </div>
             ) : null
             }
@@ -122,7 +121,7 @@ const Game = () => {
                 <div>
                     <br/>
                     <p>Ta spårvagn <span>{tramNumb}</span></p>
-                    <Button onClick={rollDice1}>SLÅ TÄRNING</Button>
+                    <Button variant="light" onClick={rollDice1}>SLÅ TÄRNING</Button>
                 </div>
             ) : null
 
@@ -130,22 +129,23 @@ const Game = () => {
             
             {showDirection ? (
                 <div>
-                    <p>Spårvagn <span>{tramNumb}</span>. Riktning <span>{direction}</span></p>
-                    <Button onClick={rollDice2}>SLÅ TÄRNING</Button>
+                    <p>Spårvagn <span>{tramNumb}</span></p>
+                     <p>Riktning <span>{direction}</span></p>
+                    <Button variant="light" onClick={rollDice2}>SLÅ TÄRNING</Button>
                 </div>
             ) : null}
             
             {showStops ? (
                 <div>
                     <p>Åk <span>{stops}</span> hållplatser</p>
-                    <Button onClick={rollDice3}>VART SKA VI?</Button>
+                    <Button variant="light" onClick={rollDice3}>VART SKA VI?</Button>
                 </div>
             ) : null}
             
             {result ? (
                 <div>
                     <p>Åk till: <span>{end}</span> och drick öl!</p>
-                    <p>Klicka <Button onClick={restart}>här</Button> för nästa spårvagnstur</p>
+                    <p>Klicka <Button variant="light" onClick={restart}>här</Button> för nästa spårvagnstur</p>
                 </div>
             ) : null
 

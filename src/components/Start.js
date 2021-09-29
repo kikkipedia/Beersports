@@ -105,7 +105,7 @@ const Start = () => {
                 <Col className="md-2">
                     <br/>
                     {showButton ? (
-                        <Button onClick={rollDiceOne}>Fortsätt</Button>
+                        <Button variant="light" onClick={rollDiceOne}>FORTSÄTT</Button>
                     ) : (null)   
                     }
                  </Col>
