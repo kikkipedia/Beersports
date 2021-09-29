@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { fetchStationByName } from '../api'
 import { InputGroup, FormControl } from 'react-bootstrap'
 import { stops } from './data/stops'
@@ -7,6 +7,7 @@ import { useHistory } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../state/index'
+
 
 const Start = () => {
     //redux
@@ -93,23 +94,20 @@ const Start = () => {
 
     return(
         <div className="content">
-            <h4>Var vill du starta?</h4>
             <br/>
-             <div className="justify-content-center">
-                <Col className="md-6">
+            <h4>Pubrunda!!!</h4>
+            <br/>
                     <InputGroup>
                         <FormControl placeholder="Sök hållplats" type="text" onChange={onChange} value={input} />
                     </InputGroup>
                     {showSuggestions && input && <SuggestionsListComponent/>}
-                </Col>
-                <Col className="md-2">
+
                     <br/>
                     {showButton ? (
                         <Button variant="light" onClick={rollDiceOne}>FORTSÄTT</Button>
                     ) : (null)   
                     }
-                 </Col>
-            </div>
+
         </div>
     )
 

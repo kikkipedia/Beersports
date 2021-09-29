@@ -4,12 +4,13 @@
   text-align: center;
   font-family: 'Roboto', sans-serif;
   padding: 15px;
+
 }
 
 input {
   border: 1px solid #999;
-  padding: 0.5rem;
-  width: 300px;
+  /* padding: 0.5rem; */
+  /* width: 300px; */
 }
 .no-suggestions {
   color: #999;
@@ -23,7 +24,7 @@ input {
   max-height: 143px;
   overflow-y: auto;
   padding-left: 0;
-  width: calc(300px + 1rem);
+  /* width: calc(300px + 1rem); */
 }
 .suggestions li {
   padding: 0.5rem;

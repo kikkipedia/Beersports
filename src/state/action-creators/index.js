@@ -20,3 +20,21 @@ export const updateStationName = (name) => {
 export const addStationName = (name) => {
 
 }
+
+export const updateTram = (tram) => {
+    return (dispatch) => {
+        dispatch({
+            type: "updateTram",
+            payload: tram
+        })
+    }
+}
+
+export const updateDepartures = (departures) => {
+    return (dispatch) => {
+        dispatch({
+            type: "updateDepartures",
+            payload: departures
+        })
+    }
+}
