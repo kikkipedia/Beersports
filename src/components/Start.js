@@ -18,6 +18,7 @@ const Start = () => {
     const [showSuggestions, setShowSuggestions] = useState(false)
     const [input, setInput] = useState('')
 
+    const [showButton, setShowButton] = useState(false)
     const history = useHistory()
 
     const onChange = (e) => {
@@ -35,7 +36,8 @@ const Start = () => {
         setFilteredSuggestions([])
         setInput(e.target.innerText)
         setActiveSuggestionIndex(0)
-        setShowSuggestions(false)      
+        setShowSuggestions(false)    
+        setShowButton(true)  
     }
 
     const SuggestionsListComponent = () => {
@@ -51,29 +53,27 @@ const Start = () => {
                         <li className={className} key={suggestion} onClick={onClick}>
                             {suggestion}
                         </li>
-                    )
-                    
+                    )                  
                 })}
             </ul>
         ) : (
+            // toggle noShowButton
             <div className="no-suggestions">
-                <em>No stops found</em>
+                <em>Inga hållplatser hittades</em>
             </div>
         )
     }
 
     // TODO
     const rollDiceOne = () => {
-        //if no search and/or no suggestions - TODO
+        //if no input
         if (!input) {
-            //do nothing
-            console.log("empty!")
+            alert("kan inte lämnas tom!")
         }
         else {
             updateStationName(input)
             getStation()
-        }
-        
+        }       
     }
 
     //search for stop
@@ -93,25 +93,23 @@ const Start = () => {
 
     return(
         <div className="content">
-            <div className="one">
-                <p>Search your starting station</p>
-                <div className="justify-content-center">
-                    <Col className="md-6">
-                        <InputGroup>
-                            <FormControl placeholder="Search station" type="text" onChange={onChange} value={input} />
-                        </InputGroup>
-                        {showSuggestions && input && <SuggestionsListComponent/>}
-                    </Col>
-                    <Col className="md-2">
-                        {input ? (
-                            <Button onClick={rollDiceOne}>Continue</Button>
-                        ) : (null)
-                        
-                        }
-                    </Col>
-                </div>
-            </div>
+            <h4>Var vill du starta?</h4>
             <br/>
+             <div className="justify-content-center">
+                <Col className="md-6">
+                    <InputGroup>
+                        <FormControl placeholder="Sök hållplats" type="text" onChange={onChange} value={input} />
+                    </InputGroup>
+                    {showSuggestions && input && <SuggestionsListComponent/>}
+                </Col>
+                <Col className="md-2">
+                    <br/>
+                    {showButton ? (
+                        <Button onClick={rollDiceOne}>Fortsätt</Button>
+                    ) : (null)   
+                    }
+                 </Col>
+            </div>
         </div>
     )
 

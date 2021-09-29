@@ -27,12 +27,11 @@ const Game = () => {
     const [showStops, setShowStops] = useState(false)
     const [result, setResult] = useState(false)
 
-    //get departure board for the station they are at
+    //get departure board for the current station
     useEffect(() => {
         try {
             fetchDepartureBoard(stationId)
             .then(data => {
-            console.log(data)
             setDepartures(data)
         })
         }
@@ -41,7 +40,7 @@ const Game = () => {
             alert(error)
             history.push("/")
         }
-    },[stationId])
+    },[stationName])
 
     //trim string
     const trimText = (text) => {
@@ -69,15 +68,24 @@ const Game = () => {
             setDirection(trimText(tram.direction))
             //random stops to travel
             let stopArr = tram.Stops.Stop
-            let random = Math.floor(Math.random()*stopArr.length)
-            //TODO IF TOO MANY STOPS???
-            let endhpl = stopArr[random]
-            setStops(random)
-            setEnd(trimText(endhpl.name))
-            updateStationName(trimText(endhpl.name))
-            setShowTramNumb(true)
+            if(stopArr.length > 0) {
+                let random = Math.floor(Math.random()*stopArr.length)               
+                //travel no more than 10 stops
+                if (random > 10) {
+                    rollTram()
+                }
+                else {
+                    let endhpl = stopArr[random]
+                    setStops(random)
+                    setEnd(trimText(endhpl.name))
+                    updateStationName(trimText(endhpl.name))
+                    setShowTramNumb(true)
+                }
+            }
+            else {alert("Det går inga spårvagnar!")}            
         }      
     }
+
     //toggle show/hide
     const rollDice1 = () => {
         setShowTramNumb(false)
@@ -92,6 +100,12 @@ const Game = () => {
     const rollDice3 = () => {
         setShowStops(false)
         setResult(true)
+    }
+
+    //start next tram ride
+    const restart = () => {
+        localStorage.setItem('station', stationName)
+        setShowStart(true)
     }
     
     return (
@@ -123,16 +137,15 @@ const Game = () => {
             
             {showStops ? (
                 <div>
-                    <p>Åk {stops} hållplatser</p>
+                    <p>Åk <span>{stops}</span> hållplatser</p>
                     <Button onClick={rollDice3}>VART SKA VI?</Button>
                 </div>
             ) : null}
             
             {result ? (
                 <div>
-                    <p>Åk till: {end}</p>
-                    <p>Klicka <Button>här</Button>när du dricker en öl vid {end}</p>
-                    <p>eller <a href="/">börja om</a></p>
+                    <p>Åk till: <span>{end}</span> och drick öl!</p>
+                    <p>Klicka <Button onClick={restart}>här</Button> för nästa spårvagnstur</p>
                 </div>
             ) : null
 
