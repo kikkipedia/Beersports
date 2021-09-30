@@ -19,7 +19,7 @@ const Game = () => {
     const {updateStationName, updateStationId, updateTram} = bindActionCreators(actionCreators, dispatch)
     //hooks
     const [isLoading, stopLoading] = useState(true)
-    const [tramNumb, setTramNumb] = useState()
+    const [tramNumb, setTramNumb] = useState('')
     const [stops, setStops] = useState()
     const [direction, setDirection] = useState()
     const [end, setEnd] = useState()
@@ -63,7 +63,9 @@ const Game = () => {
     //trim string
     const trimText = (text) => {
         let newText = text.replace(/Göteborg|kn|()/g,'')
-        return newText
+        let new2 = newText.replace("(", "")
+        let new3 = new2.replace(")", "")
+        return new3
     }
 
     //which tram to take
@@ -74,9 +76,10 @@ const Game = () => {
     //random stops to travel
     const rollTheRest = () => {
         let stopArr = tram.Stops.Stop
+        console.log(stopArr)
         if(stopArr.length > 0) {
             let random = Math.floor(Math.random()*stopArr.length)
-            if(random > 0) {
+            if(random > 0 && random < 15) {
                 let endhpl = stopArr[random]
                 setStops(random)
                 setEnd(trimText(endhpl.name))
@@ -95,7 +98,7 @@ const Game = () => {
             rollTram()
         }
         else {
-            setTramNumb(tram.transportNumber)
+            setTramNumb(tram.transportNumber) // slow!
             setDirection(trimText(tram.direction))
             rollTheRest()           
         }      
@@ -141,7 +144,7 @@ const Game = () => {
         <div className="content">
             {showStart ? (
                 <div>
-                <p>Du startar vid <span>{startStation}</span></p> 
+                <p>Du är vid <span>{startStation}</span></p> 
                 <Button variant="light" onClick={firstStep}>SLÅ TÄRNING</Button>
             </div>
              ) : null
@@ -150,7 +153,7 @@ const Game = () => {
             { showTramNumb ? (
                 <div>
                     <br/>
-                    <p>Ta spårvagn <span>{tramNumb}</span></p>
+                    <p>Ta spårvagn <span>{tram.transportNumber}</span></p>
                     <Button variant="light" onClick={rollDice1}>SLÅ TÄRNING</Button>
                 </div>
             ) : null
@@ -175,6 +178,7 @@ const Game = () => {
             {result ? (
                 <div>
                     <p>Åk till <span>{end}</span> och drick öl!</p>
+                    <br/>
                     <p>Klicka <Button variant="light" onClick={restart}>här</Button> för nästa spårvagnstur</p>
                 </div>
             ) : null
