@@ -5,7 +5,7 @@ const Footer = () => {
 
     return(
         <div className="content">
-            <img src={beericon} width="150px" alt="beer"/>
+            <span style={{fontSize:'70px'}}>&#128651;</span>
         </div>
     )
 }
