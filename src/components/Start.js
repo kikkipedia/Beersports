@@ -96,7 +96,7 @@ const Start = () => {
     return(
         <div className="content">
             <br/>
-            <h4>Pubrunda!!!</h4>
+            <h4><span style={{fontSize:'40px'}}>&#127870;</span> dags för pubrunda <span style={{fontSize:'40px'}}>&#127867;</span></h4>
             <br/>
                     <InputGroup>
                         <FormControl placeholder="Sök hållplats" type="text" onChange={onChange} value={input} />

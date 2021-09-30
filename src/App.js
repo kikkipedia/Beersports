@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Navigation from './components/Navigation'
 import Start from './components/Start'
 import Game from './components/Game';
-
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           <Route path="/game" component={Game}/>
         </Switch>
     </Router>
+    <Footer/>
     </div>
 
   )
