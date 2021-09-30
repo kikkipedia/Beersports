@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../state/index'
 
-
 const Start = () => {
     //redux
     const dispatch = useDispatch()
@@ -21,6 +20,8 @@ const Start = () => {
 
     const [showButton, setShowButton] = useState(false)
     const history = useHistory()
+
+    localStorage.clear()
 
     const onChange = (e) => {
         const userInput = e.target.value
@@ -65,13 +66,13 @@ const Start = () => {
         )
     }
 
-    // TODO
     const rollDiceOne = () => {
         //if no input
         if (!input) {
             alert("kan inte lämnas tom!")
         }
         else {
+            localStorage.setItem('startStation', input)
             updateStationName(input)
             getStation()
         }       

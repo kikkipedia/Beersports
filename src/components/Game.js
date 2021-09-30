@@ -10,6 +10,7 @@ import { fetchStationByName } from "../api"
 
 const Game = () => {
     const history = useHistory()
+    let startStation = localStorage.getItem('startStation')
     //redux 
     const stationId = useSelector((state) => state.station)
     const stationName = useSelector((state) => state.stationName)
@@ -70,30 +71,42 @@ const Game = () => {
         updateTram(stationArr[Math.floor(Math.random()*30)])
     }
 
+    //random stops to travel
+    const rollTheRest = () => {
+        let stopArr = tram.Stops.Stop
+        if(stopArr.length > 0) {
+            let random = Math.floor(Math.random()*stopArr.length)
+            if(random > 0) {
+                let endhpl = stopArr[random]
+                setStops(random)
+                setEnd(trimText(endhpl.name))
+                updateStationName(trimText(endhpl.name))
+            }             
+            else {
+                rollTheRest()
+            }     
+        }
+        else {alert("Det går inga spårvagnar!")} 
+    }
+
     const randomiseStop = () => {
         stopLoading(false)
         if(tram.transportNumber === "Spårvagn X") {
             rollTram()
         }
         else {
-            console.log("in randomiseStop. Tram: ", tram)
             setTramNumb(tram.transportNumber)
             setDirection(trimText(tram.direction))
-            //random stops to travel
-            let stopArr = tram.Stops.Stop
-            if(stopArr.length > 0) {
-                let random = Math.floor(Math.random()*stopArr.length)               
-                    let endhpl = stopArr[random]
-                    setStops(random)
-                    setEnd(trimText(endhpl.name))
-                    updateStationName(trimText(endhpl.name))
-                    setShowTramNumb(true)
-            }
-            else {alert("Det går inga spårvagnar!")}            
+            rollTheRest()           
         }      
     }
 
     //toggle show/hide
+    const firstStep = () => {
+        setShowTramNumb(true)
+        setShowStart(false)
+    }
+
     const rollDice1 = () => {
         setShowTramNumb(false)
         setShowDirection(true)
@@ -105,39 +118,38 @@ const Game = () => {
     }
 
     const rollDice3 = () => {
+        localStorage.setItem('startStation', end)
         setShowStops(false)
         setResult(true)
     }
 
     //start next tram ride // TODO
     const restart = () => {
-        console.log("restart?")
-        localStorage.setItem('station', stationName)
+        setShowStart(true)
+        //has the new station name
         fetchStationByName(stationName)
         .then(data => {
         let object = data.StopLocation.find(el => el.products === 64 || 192)
         //id to redux store
         updateStationId(object.id)
+
         })
         setResult(false)
-        setShowStart(true)
     }
     
     return (
         <div className="content">
-            { showStart ?  (
+            {showStart ? (
                 <div>
-                    <h4>showStart</h4>
-                    <p>Du startar vid</p> 
-                    <p><span>{stationName}</span></p>
-                    <Button variant="light" onClick={setShowStart(false)}>SLÅ TÄRNING</Button>
-                </div>
-            ) : null
+                <p>Du startar vid <span>{startStation}</span></p> 
+                <Button variant="light" onClick={firstStep}>SLÅ TÄRNING</Button>
+            </div>
+             ) : null
             }
+                
             { showTramNumb ? (
                 <div>
                     <br/>
-                    <h4>showTramNumb</h4>
                     <p>Ta spårvagn <span>{tramNumb}</span></p>
                     <Button variant="light" onClick={rollDice1}>SLÅ TÄRNING</Button>
                 </div>
@@ -166,9 +178,7 @@ const Game = () => {
                     <p>Klicka <Button variant="light" onClick={restart}>här</Button> för nästa spårvagnstur</p>
                 </div>
             ) : null
-
-            }
-            
+            }           
         </div>
     )
 }
