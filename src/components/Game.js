@@ -13,16 +13,16 @@ const Game = () => {
     //redux 
     const stationId = useSelector((state) => state.station)
     const stationName = useSelector((state) => state.stationName)
-    //const tram = useSelector((state) => state.tram)
+    const tram = useSelector((state) => state.tram)
     const dispatch = useDispatch()
-    const {updateStationName, updateStationId} = bindActionCreators(actionCreators, dispatch)
+    const {updateStationName, updateStationId, updateTram} = bindActionCreators(actionCreators, dispatch)
     //hooks
-    //const [departures, setDepartures] = useState([])
+    const [isLoading, stopLoading] = useState(true)
     const [tramNumb, setTramNumb] = useState()
     const [stops, setStops] = useState()
     const [direction, setDirection] = useState()
     const [end, setEnd] = useState()
-    //toggle show
+    //toggle shows
     const [showStart, setShowStart] = useState(true)
     const [showTramNumb, setShowTramNumb] = useState(false)
     const [showDirection, setShowDirection] = useState(false)
@@ -30,17 +30,14 @@ const Game = () => {
     const [result, setResult] = useState(false)
 
     //get departure board for the current station
-    //TODO -- use Redux!
     useEffect(() => {
         try {
             fetchDepartureBoard(stationId)
             .then(data => {
-            console.log(data)
             let stationArr = []
             for(let i = 0; i <data.Departure.length; i++){
                 stationArr.push(data.Departure[i])
             }
-            console.log(stationArr)
             rollTram(stationArr)
         })
         }
@@ -51,6 +48,17 @@ const Game = () => {
         }
     },[stationId])
 
+    //wait for redux tram state to update
+    useEffect(() => {
+        stopLoading(false)
+        if(isLoading) {
+            console.log("is loading")
+        }
+        else {
+            randomiseStop()
+        }
+    },[tram])
+
     //trim string
     const trimText = (text) => {
         let newText = text.replace(/Göteborg|kn|()/g,'')
@@ -59,13 +67,16 @@ const Game = () => {
 
     //which tram to take
     const rollTram = (stationArr) => {
-        //random tram
-        let tram = stationArr[Math.floor(Math.random()*30)]
-        console.log("Tram is: ", tram)
+        updateTram(stationArr[Math.floor(Math.random()*30)])
+    }
+
+    const randomiseStop = () => {
+        stopLoading(false)
         if(tram.transportNumber === "Spårvagn X") {
             rollTram()
         }
         else {
+            console.log("in randomiseStop. Tram: ", tram)
             setTramNumb(tram.transportNumber)
             setDirection(trimText(tram.direction))
             //random stops to travel
@@ -80,7 +91,7 @@ const Game = () => {
             }
             else {alert("Det går inga spårvagnar!")}            
         }      
-    }    
+    }
 
     //toggle show/hide
     const rollDice1 = () => {
@@ -98,8 +109,7 @@ const Game = () => {
         setResult(true)
     }
 
-    //start next tram ride
-    //TODO UPDATE NEW ID!
+    //start next tram ride // TODO
     const restart = () => {
         console.log("restart?")
         localStorage.setItem('station', stationName)
@@ -117,6 +127,7 @@ const Game = () => {
         <div className="content">
             { showStart ?  (
                 <div>
+                    <h4>showStart</h4>
                     <p>Du startar vid</p> 
                     <p><span>{stationName}</span></p>
                     <Button variant="light" onClick={setShowStart(false)}>SLÅ TÄRNING</Button>
@@ -126,6 +137,7 @@ const Game = () => {
             { showTramNumb ? (
                 <div>
                     <br/>
+                    <h4>showTramNumb</h4>
                     <p>Ta spårvagn <span>{tramNumb}</span></p>
                     <Button variant="light" onClick={rollDice1}>SLÅ TÄRNING</Button>
                 </div>

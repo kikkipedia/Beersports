@@ -1,7 +1,7 @@
 
-const initial_state = localStorage.getItem('station') || ''
+//const initial_state = localStorage.getItem('station') || ''
 
-const reducer = (state = initial_state, action) => {
+const reducer = (state = '', action) => {
     switch(action.type) {
         case "updateName":
             return action.payload

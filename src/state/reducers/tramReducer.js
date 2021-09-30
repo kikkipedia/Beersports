@@ -1,5 +1,7 @@
+const initialState = {
+}
 
-const reducer = (state = null, action) => {
+const reducer = (state = initialState, action) => {
     switch(action.type) {
         case "updateTram":
             return action.payload
