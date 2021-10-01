@@ -1,18 +1,5 @@
-body {
-  margin: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  background-color: #2f2f2f;
-  color: whitesmoke;
-}
-.navbar {
-  background-color: #2f2f2f;
-  text-decoration: none;
-}
-.nav-link {
-  text-decoration: none;
-}
+
+/* 
 .content {
   background-color: #2f2f2f;
   color: whitesmoke;
@@ -21,10 +8,7 @@ body {
 h4 {
   color: whitesmoke;
 }
-span {
-  color: #ec8aff;
-  font-size: 125%;
-}
+
 .dice {
   background-color: white;
   border: 2px solid grey;
@@ -54,3 +38,4 @@ img.resize {
   margin: 10px;
   font-family: 'Rubik', sans-serif;
 }
+ */

@@ -1,8 +1,5 @@
 import React from 'react'
 import { Navbar} from 'react-bootstrap'
-import "../index.css"
-import beericon from '../images/beericon.png'
-
 
 const Navigation = () => {
 
@@ -10,7 +7,8 @@ const Navigation = () => {
             
             <div>                
                 <Navbar collapseOnSelect expand="lg" className="navbar mr-auto" sticky="top">
-                    <Navbar.Brand href="/" className="navbrand" style={{color:"#ffcc00"}}>B E E R S P O R T S <img src={beericon} width="40px" alt="beer"/></Navbar.Brand>
+                    <Navbar.Brand href="/" className="navbrand" style={{color:"#ffcc00"}}>B E E R S P O R T S <span style={{fontSize:"x-small", color:"#ffcc00", verticalAlign:"middle"
+                , letterSpacing:"2px"}}>- harder than fitness</span></Navbar.Brand>
                 </Navbar>
             </div>
         )

@@ -145,9 +145,10 @@ const Game = () => {
     
     return (
         <div className="content">
+            <br/>
             {showStart ? (
                 <div>
-                <p>Start: <span>{startStation}</span></p> 
+                <p>Starta vid <span>{startStation}</span></p> 
                 <Button variant="light" onClick={firstStep}>SLÅ TÄRNING</Button>
             </div>
              ) : null
@@ -167,7 +168,8 @@ const Game = () => {
             {showDirection ? (
                 <div>
                     <p>Spårvagn <span>{tramNumb}</span></p>
-                     <p>Riktning <span>{direction}</span></p>
+                     <p>Riktning:</p> 
+                     <p><span>{direction}</span></p>
                     <Button variant="light" onClick={rollDice2}>SLÅ TÄRNING</Button>
                 </div>
             ) : null}
@@ -182,11 +184,13 @@ const Game = () => {
             
             {result ? (
                 <div>
-                    <p>Åk till <span>{end}</span> <span style={{fontSize:'7vw'}}>&#127867;</span></p>
+                    <p>Åk till <span>{end}</span> <span style={{fontSize:'7vw'}}>&#127867;</span><br/>
+                    <span style={{fontSize: "x-small", color:"white"}}>Missnöjd? Klicka <Button className="smallBtn" onClick={shuffleNewStop}>här</Button> för att slumpa ett annat stopp</span></p>
                     <br/>
-                    <p>Klicka <Button variant="light" onClick={restart}>här</Button> för nästa spårvagnstur</p>
-                    <br/>
-                    <p>Klicka <Button variant="light" onClick={shuffleNewStop}>här</Button> för att slumpa ett annat stopp!</p>
+                    <span style={{fontSize:'10vw'}}>&#127870;</span>
+                    <p><Button variant="light" onClick={restart}>Nästa ölstopp!</Button></p>
+                    
+                    
                 </div>
                 
             ) : null
