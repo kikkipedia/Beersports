@@ -3,14 +3,11 @@
 .content {
   text-align: center;
   font-family: 'Roboto', sans-serif;
-  padding: 15px;
-
+  /* padding: 5px; */
 }
 
 input {
   border: 1px solid #999;
-  /* padding: 0.5rem; */
-  /* width: 300px; */
 }
 .no-suggestions {
   color: #999;
@@ -38,4 +35,22 @@ input {
 }
 .suggestions li:not(:last-of-type) {
   border-bottom: 1px solid #999;
+}
+
+h5 {
+  letter-spacing: 2px;
+  font-size: 4vw;
+}
+
+.fullScreen {
+  width: 100% !important;
+}
+
+.searchbar {
+  padding: 15px;
+}
+
+.rulesTextBox {
+  font-size: small;
+  text-align: left;
 }

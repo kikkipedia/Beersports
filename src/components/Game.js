@@ -76,7 +76,6 @@ const Game = () => {
     //random stops to travel
     const rollTheRest = () => {
         let stopArr = tram.Stops.Stop
-        console.log(stopArr)
         if(stopArr.length > 0) {
             let random = Math.floor(Math.random()*stopArr.length)
             if(random > 0 && random < 15) {
@@ -121,13 +120,18 @@ const Game = () => {
     }
 
     const rollDice3 = () => {
-        localStorage.setItem('startStation', end)
         setShowStops(false)
         setResult(true)
     }
 
+    //new stop
+    const shuffleNewStop = () => {
+        rollTheRest()
+    }
+
     //start next tram ride // TODO
     const restart = () => {
+        localStorage.setItem('startStation', end)
         setShowStart(true)
         //has the new station name
         fetchStationByName(stationName)
@@ -135,7 +139,6 @@ const Game = () => {
         let object = data.StopLocation.find(el => el.products === 64 || 192)
         //id to redux store
         updateStationId(object.id)
-
         })
         setResult(false)
     }
@@ -144,7 +147,7 @@ const Game = () => {
         <div className="content">
             {showStart ? (
                 <div>
-                <p>Du är vid <span>{startStation}</span></p> 
+                <p>Start: <span>{startStation}</span></p> 
                 <Button variant="light" onClick={firstStep}>SLÅ TÄRNING</Button>
             </div>
              ) : null
@@ -153,7 +156,8 @@ const Game = () => {
             { showTramNumb ? (
                 <div>
                     <br/>
-                    <p>Ta spårvagn <span>{tram.transportNumber}</span></p>
+                    <p>Ta spårvagn</p>
+                    <p><span style={{fontSize:"10vw"}}>{tram.transportNumber}</span></p>
                     <Button variant="light" onClick={rollDice1}>SLÅ TÄRNING</Button>
                 </div>
             ) : null
@@ -170,17 +174,21 @@ const Game = () => {
             
             {showStops ? (
                 <div>
-                    <p>Åk <span>{stops}</span> hållplatser</p>
+                    <p>Antal hållplatser:</p>
+                    <p><span style={{fontSize:"10vw"}}>{stops}</span> </p>
                     <Button variant="light" onClick={rollDice3}>VART SKA VI?</Button>
                 </div>
             ) : null}
             
             {result ? (
                 <div>
-                    <p>Åk till <span>{end}</span> och drick öl!</p>
+                    <p>Åk till <span>{end}</span> <span style={{fontSize:'7vw'}}>&#127867;</span></p>
                     <br/>
                     <p>Klicka <Button variant="light" onClick={restart}>här</Button> för nästa spårvagnstur</p>
+                    <br/>
+                    <p>Klicka <Button variant="light" onClick={shuffleNewStop}>här</Button> för att slumpa ett annat stopp!</p>
                 </div>
+                
             ) : null
             }           
         </div>

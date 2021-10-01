@@ -96,18 +96,34 @@ const Start = () => {
     return(
         <div className="content">
             <br/>
-            <h4><span style={{fontSize:'40px'}}>&#127870;</span> dags för pubrunda <span style={{fontSize:'40px'}}>&#127867;</span></h4>
+            <div className="fullScreen">
+            <h5><span style={{fontSize:'7vw'}}>&#127870;</span> DAGS FÖR PUBRUNDA <span style={{fontSize:'7vw'}}>&#127867;</span></h5>
+            </div>
+            
             <br/>
-                    <InputGroup>
-                        <FormControl placeholder="Sök hållplats" type="text" onChange={onChange} value={input} />
-                    </InputGroup>
-                    {showSuggestions && input && <SuggestionsListComponent/>}
+            <div className="searchbar">
+            <InputGroup>
+                    <FormControl placeholder="Sök starthållplats" type="text" onChange={onChange} value={input} />
+                </InputGroup>
+                {showSuggestions && input && <SuggestionsListComponent/>}
+                <br/>
+                {showButton ? (
+                    <Button variant="light" onClick={rollDiceOne}>FORTSÄTT</Button>
+                ) : (null)   
+                }
+                
+            </div>
+            <div className="rulesTextBox">
+            <hr/>
+                <p>Detta är en app för slumpmässig pubrunda med spårvagn i Göteborgs stad.</p>
+                <p>Tärningen kastas flera gånger och genom den får du veta spårvagnsnummer, riktning och antal hållplatser till nästa mål. Väl framme på nästa hållplats intas en öl på valfri pub.</p>
+                <p>Ibland finns ingen pub vid hållplatsen. Då finns möjlighet att skippa stoppet och kasta tärningen igen.<br/>Sök hållplats ovan för att starta!</p>
+                <div style={{textAlign: "center"}}>
+                    <span style={{fontSize:'7vw'}}>&#127867;</span>
+                </div>
+                <p>Idé: Jimmy Tallbo och Jasmin.<br/>Utvecklad av Kicki 2020-2022</p>
+            </div>
 
-                    <br/>
-                    {showButton ? (
-                        <Button variant="light" onClick={rollDiceOne}>FORTSÄTT</Button>
-                    ) : (null)   
-                    }
 
         </div>
     )

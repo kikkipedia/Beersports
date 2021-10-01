@@ -1,11 +1,12 @@
 import React from 'react'
-import beericon from '../images/beericon.png'
 
+//TODO bottom of page
 const Footer = () => {
 
     return(
         <div className="content">
-            <span style={{fontSize:'70px'}}>&#128651;</span>
+            <br/>
+            <span style={{fontSize:'40px'}}>&#128651;</span>
         </div>
     )
 }
