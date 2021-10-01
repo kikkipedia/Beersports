@@ -4,9 +4,9 @@ import React from 'react'
 const Footer = () => {
 
     return(
-        <div className="content">
+        <div className="footer">
             <br/>
-            <span style={{fontSize:'40px'}}>&#128651;</span>
+            <span style={{fontSize:'7vw'}}>&#128651; &#128651; &#128651; &#128651; &#128651; &#128651; &#128651; &#128651;</span>
         </div>
     )
 }

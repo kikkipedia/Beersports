@@ -114,7 +114,7 @@ const Start = () => {
                 
             </div>
             <div className="rulesTextBox">
-            <hr/>
+                <hr/>
                 <p>Detta är en app för slumpmässig pubrunda med spårvagn i Göteborgs stad.</p>
                 <p>Tärningen kastas flera gånger och genom den får du veta spårvagnsnummer, riktning och antal hållplatser till nästa mål. Väl framme på nästa hållplats intas en öl på valfri pub.</p>
                 <p>Ibland finns ingen pub vid hållplatsen. Då finns möjlighet att skippa stoppet och kasta tärningen igen.<br/>Sök hållplats ovan för att starta!</p>
