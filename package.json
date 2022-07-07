@@ -16,7 +16,7 @@
     "bootstrap": "^4.4.1",
     "firebase": "^9.0.2",
     "jquery": "^3.6.0",
-    "moment": "2.24.0",
+    "moment": "2.29.4",
     "react": "^16.13.1",
     "react-autocomplete": "^1.8.1",
     "react-autosuggest": "^10.1.0",
